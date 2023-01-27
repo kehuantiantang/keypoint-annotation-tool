@@ -84,7 +84,7 @@ class TooltipAnnotator(BaseAnnotator):
             json_fname = wat.common.fname_no_ext(im_fname) + '.json'
             dst_path = os.path.join(self.output_dir, 'frames', json_fname)
             json_annotation = self._create_json_annotation()
-            with open(dst_path, 'w') as f: 
+            with open(dst_path, 'w', encoding='utf-8') as f:
                 json.dump(json_annotation, f, indent=4)
             
             # Save binary mask with the tooltip annotation
@@ -93,7 +93,9 @@ class TooltipAnnotator(BaseAnnotator):
             im_annot = self._create_image_annotation()
             if im_annot is not None:
                 np.save(dst_path, im_annot)
-                wat.common.copy(self.path, os.path.join(self.output_dir, 'frames'))
+                img = cv2.imread(self.path)
+                cv2.imwrite(os.path.join(self.output_dir, 'frames', wat.common.fname_no_ext(im_fname) + '.jpg'), img)
+
         
         def _get_original_clicks(self):
             original_clicks = []
@@ -109,7 +111,8 @@ class TooltipAnnotator(BaseAnnotator):
 
         def _create_json_annotation(self):
             filename = osp.split(self.path)[-1]
-            return {'filename':filename, 'density': filename.split('.')[0] + '.npy', 'points': self._get_original_clicks()}
+            return {'filename':filename, 'density': osp.splitext(filename)[0] + '.npy', 'points':
+                                                                                     self._get_original_clicks()}
 
 
         def _create_image_annotation(self):

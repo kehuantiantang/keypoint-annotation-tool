@@ -85,8 +85,9 @@ def click_event_handler(canvas_n_clicks, hoverData, undo_n_clicks, missing_tip_n
     tooltip_view = []
     tips = wat.controllers.annotator.TooltipAnnotator().clicks
     tip_style = {'margin-bottom': '0px'}
-    for tip in tips:
-        tip_html = dbc.ListGroupItem('x = ' + str(tip['x']) + ', y = ' + str(tip['y']), style=tip_style)
+    for index, tip in enumerate(tips):
+        tip_html = dbc.ListGroupItem('x = %s,\ty = %s,\tnum: %s'%(tip['x'], tip['y'], index+1),
+                                     style=tip_style)
         tooltip_view.append(tip_html)
 
     # Update the view of the figure 
@@ -98,8 +99,8 @@ def click_event_handler(canvas_n_clicks, hoverData, undo_n_clicks, missing_tip_n
             x=[click['x']],
             y=[click['y']],
             showlegend=False,
-            mode= 'markers', marker_size = [20],
-            name='Tooltip ' + str(idx + 1)
+            mode= 'markers', marker_size = [8],
+            name='T%s'%(idx + 1)
         ))
 
     return tooltip_view, fig

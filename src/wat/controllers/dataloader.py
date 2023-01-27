@@ -22,7 +22,12 @@ class DataLoader(object):
 
             ldir = wat.common.listdir(self.input_dir, ext=['.png', '.jpg', '.jpeg', '.tif', '.gif', '.tiff'],
                                       onlyfiles=True)
-            self.abs_paths = [os.path.join(self.input_dir, f) for f in sorted(ldir)]
+            self.abs_paths = []
+            for f in sorted(ldir):
+                if not f.startswith('.'):
+                    self.abs_paths.append(os.path.join(self.input_dir, f))
+
+            print('Total number of images to annotate: {}'.format(len(self.abs_paths)))
             self.counter = 0
 
             # Create an output folder if it does not exist
@@ -34,7 +39,7 @@ class DataLoader(object):
 
         def next(self):
             """@returns an absolute path to the next image to annotate."""
-
+            print('Next, counter = {}'.format(self.counter))
             if self.counter >= len(self.abs_paths):
                 return None
             abs_path = self.abs_paths[self.counter]
@@ -44,6 +49,8 @@ class DataLoader(object):
 
         def remaining(self):
             """@returns the number of images to be annotated."""
+            print('Remain', len(self.abs_paths) - self.counter)
+
             return len(self.abs_paths) - self.counter
 
     # Singleton implementation for the Controller class 
@@ -51,8 +58,10 @@ class DataLoader(object):
     def __init__(self, data_dir=None):
         if DataLoader.instance is None:
             DataLoader.instance = DataLoader.__DataLoader(data_dir)
+            # print('New DataLoader instance created.', data_dir)
         else:
             if data_dir is None or data_dir == DataLoader.instance.data_dir:
+                # print('Ignore DataLoader instance created.')
                 pass # Same database, nothing to do
             else:
                 raise RuntimeError('[ERROR] You cannot change the data directory during execution.')

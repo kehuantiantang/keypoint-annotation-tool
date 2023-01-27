@@ -19,7 +19,7 @@ def copy(src, dst):
     shutil.copy(src, dst)
 
 def save_json(data, path):
-    with open(path, 'w') as outfile:
+    with open(path, 'w', encoding='utf-8') as outfile:
         json.dump(data, outfile)
 
 
