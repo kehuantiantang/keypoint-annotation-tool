@@ -78,12 +78,12 @@ def main():
             if raw_img is None or points is None or npy_norm is None:
                 print('Error, the data %s has problem' % name)
 
-            mask = points2density(points, max_scale=3.0, max_radius=15.0, image_size=raw_img.shape[:2])
+            mask = points2density(points, max_scale=8.0, max_radius=20.0, image_size=raw_img.shape[:2])
             min, max = mask.min(), mask.max()
             mask_norm = (mask - min) / (max - min + 1e-8)
 
-            npy_vis = apply_scoremap(raw_img, npy_norm)
-            mask_vis = apply_scoremap(raw_img, mask_norm)
+            npy_vis = apply_scoremap(raw_img.copy(), npy_norm)
+            mask_vis = apply_scoremap(raw_img.copy(), mask_norm)
 
             img = cv2.hconcat([raw_img, npy_vis, mask_vis])
             cv2.imwrite(osp.join(vis_path, name + '.jpg'), img)

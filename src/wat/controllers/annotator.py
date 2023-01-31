@@ -111,7 +111,8 @@ class TooltipAnnotator(BaseAnnotator):
 
         def _create_json_annotation(self):
             filename = osp.split(self.path)[-1]
-            return {'filename':filename, 'density': osp.splitext(filename)[0] + '.npy', 'points':
+            return {'filename':osp.splitext(filename)[0] + '.jpg', 'density': osp.splitext(filename)[0] + '.npy',
+                                                                                                             'points':
                                                                                      self._get_original_clicks()}
 
 
