@@ -124,7 +124,7 @@ class TooltipAnnotator(BaseAnnotator):
                 height = im.shape[0]
 
 
-                # Add tooltip annotations
+                # Add tooltip annotationswe
                 points = np.array(self._get_original_clicks())
                 cnt_gt = points.shape[0]
 
