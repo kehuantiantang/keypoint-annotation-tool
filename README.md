@@ -33,6 +33,7 @@ Run
 ---
 ``` 
 # You should be already inside the repo, where there is a sample 'data' folder to make this command work
+# modify the --data-dir "data"  to your own data folder
 $ python -m wat.run --data-dir data --port 1234 
 ```
 The ```--data-dir``` parameter should contain two folders: ```input``` and ```output```.
